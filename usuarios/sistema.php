@@ -3,7 +3,8 @@
 
  if (!empty($_SESSION['id']) && !empty($_SESSION['pass'])) {
   
- require_once 'LIGA3/LIGA.php'; 
+ require_once 'LIGA3/LIGA.php';
+ BD('localhost', 'root', '', 'base');
   
   HTML::cabeceras(array('title'=>'Sistema seguro', 'description'=>'Lo que sea...'));
   
@@ -13,6 +14,13 @@
                                     'dos'=>'<a href="cerrar.php">Cerrar sesión</a>'));
   
   HTML::cuerpo($body);
+  
+  $usuarios = LIGA('usuarios');
+  $columnas = 'id,nombre,fecha';
+
+$cols = array('Nombre de usuario' => '@[nombre]','Hora de registro' => '@{substr("@[fecha]", 11, 19)}@');
+
+HTML::tabla($usuarios,'usuarios',$cols);
   
   HTML::pie();
  } else {
